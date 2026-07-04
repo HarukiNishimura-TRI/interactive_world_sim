@@ -14,3 +14,4 @@ wandb:
 
 resume: null  # wandb run id to resume logging and loading checkpoint from
 load: null  # wandb run id containing checkpoint or a path to a checkpoint file
+seed: 42  # global random seed for reproducibility (seeded via Lightning seed_everything)

@@ -114,11 +114,15 @@ class LatentWorldModel(BasePytorchAlgo):
             cfg_path = f"{load_ae_dir}/.hydra/config.yaml"
             cfg_cp = OmegaConf.load(cfg_path)
             cfg_cp.load_ae = None
+            # strict=False: subclass checkpoints (e.g. LatentWorldModelWithProprio)
+            # may contain auxiliary head keys (_proprio_head) not needed for
+            # encoder/decoder/dynamics transfer between stages.
             diffae = LatentWorldModel.load_from_checkpoint(
                 self.load_ae,
                 cfg=cfg_cp.algorithm,
                 map_location=self.device,
                 weights_only=False,
+                strict=False,
             )
             self.encoder.load_state_dict(diffae.encoder.state_dict())
             if self.training_stage == 3:

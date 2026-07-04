@@ -1,0 +1,20 @@
+# Algorithm config for LatentWorldModelWithProprio
+# Extends latent_world_model with proprio prediction head config.
+defaults:
+  - latent_world_model
+
+_name: latent_world_model_proprio
+
+# Bind action_dim from dataset — override per-task via Hydra CLI or dataset config
+action_dim: ${dataset.shape_meta.action.shape.0}
+
+# Number of camera views — override per-task
+num_views: ${eval:'len(${dataset.obs_keys})'}
+
+# Proprio head config (LatentWorldModelWithProprio)
+proprio:
+  enabled: true
+  hidden_dim: 256     # original-codebase default
+  num_hidden_layers: 2  # original-codebase default
+  loss_weight: 0.1    # original-codebase default
+  loss_type: mse      # "mse" or "smooth_l1"

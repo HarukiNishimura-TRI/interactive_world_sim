@@ -1,0 +1,38 @@
+# IWS Stage 2: Dynamics + Proprio Head Training
+# Trains latent dynamics model + proprioceptive prediction heads.
+# Requires a Stage 1 autoencoder checkpoint (algorithm.load_ae).
+# Original-codebase defaults from upstream IWS README.
+defaults:
+  - base_pytorch
+
+tasks: [training]
+training:
+  lr: 8e-5  # original-codebase default
+  precision: 32-true
+  batch_size: 4  # original-codebase default for Stage 2
+  max_epochs: -1
+  max_steps: 1000005  # original-codebase default
+  log_every_n_steps: 100  # original-codebase default
+  checkpointing:
+    every_n_train_steps: 10000  # original-codebase default
+    save_last: True  # enables checkpoints/last.ckpt for stage handoff
+  optim:
+    gradient_clip_val: 1.0
+  data:
+    num_workers: 4  # original-codebase default for Stage 2
+
+validation:
+  val_every_n_step: 30000  # original-codebase default for Stage 2/3
+  val_every_n_epoch: null
+  batch_size: 2  # original-codebase default for Stage 2
+  limit_batch: 1.0  # original-codebase default
+  data:
+    num_workers: 4  # original-codebase default
+
+test:
+  limit_batch: 1
+  batch_size: 8
+
+logging:
+  metrics:
+    - fvd

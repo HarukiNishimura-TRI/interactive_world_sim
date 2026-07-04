@@ -106,6 +106,11 @@ def run_local(cfg: DictConfig) -> None:
     if checkpoint_path and is_rank_zero:
         print(f"Will load checkpoint from {checkpoint_path}")
 
+    # Seed for reproducibility
+    if cfg.get("seed") is not None:
+        import lightning.pytorch as pl
+        pl.seed_everything(cfg.seed, workers=True)
+
     # launch experiment
     experiment = build_experiment(cfg, logger, checkpoint_path)
     for task in cfg.experiment.tasks:
@@ -184,7 +189,7 @@ def run(cfg: DictConfig) -> None:
             "must specify a name for the run with command line argument '+name=[name]'"
         )
 
-    if not cfg.wandb.get("entity", None):
+    if cfg.wandb.get("mode") != "disabled" and not cfg.wandb.get("entity", None):
         raise ValueError(
             "must specify wandb entity in 'configurations/config.yaml' or with command"
             " line argument 'wandb.entity=[entity]' \n An entity is your wandb user"

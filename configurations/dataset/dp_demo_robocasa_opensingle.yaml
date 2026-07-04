@@ -1,0 +1,45 @@
+# DP Demo dataset config for IWS training — RoboCasa OpenSingleDoor
+defaults:
+  - base_dataset
+
+_name: dp_demo_dataset
+
+dataset_path: /workspace/robocasa/datasets/v0.1/single_stage/kitchen_doors/OpenSingleDoor/2024-04-24/demo_gentex_im128_randcams_im256.hdf5
+horizon: 3  # original-codebase default
+val_horizon: 200  # upstream default for Stage 2/3 validation diagnostics
+n_obs_steps: 2
+n_action_steps: 32
+max_steps: 500
+resolution: 128
+crop_ratio: 0.9  # RoboCasa CLIP convention: resize to 142 then center-crop to 128
+seed: 42
+val_ratio: 0.1
+pad_before: 1
+pad_after: 1
+
+obs_keys: [robot0_agentview_left_image, robot0_agentview_right_image, robot0_eye_in_hand_image]
+low_dim_keys: [robot0_eef_pos, robot0_eef_quat, robot0_gripper_qpos]
+
+shape_meta:
+  action:
+    shape:
+    - 7
+  obs:
+    robot0_agentview_left_image:
+      shape: [3, 128, 128]
+      type: rgb
+    robot0_agentview_right_image:
+      shape: [3, 128, 128]
+      type: rgb
+    robot0_eye_in_hand_image:
+      shape: [3, 128, 128]
+      type: rgb
+    robot0_eef_pos:
+      shape: [3]
+      type: low_dim
+    robot0_eef_quat:
+      shape: [4]
+      type: low_dim
+    robot0_gripper_qpos:
+      shape: [2]
+      type: low_dim

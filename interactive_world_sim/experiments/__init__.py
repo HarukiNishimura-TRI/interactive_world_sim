@@ -5,11 +5,16 @@ from lightning.pytorch.loggers.wandb import WandbLogger
 from omegaconf import DictConfig
 
 from .exp_base import BaseExperiment
+from .exp_iws_proprio import IWSProprioExperiment
 from .exp_latent_dyn import LatentDynExperiment
 
 # each key has to be a yaml file under '[project_root]/configurations/experiment' without .yaml suffix # noqa
 exp_registry = dict(
     exp_latent_dyn=LatentDynExperiment,
+    exp_iws_proprio=IWSProprioExperiment,
+    exp_iws_proprio_stage1=IWSProprioExperiment,
+    exp_iws_proprio_stage2=IWSProprioExperiment,
+    exp_iws_proprio_stage3=IWSProprioExperiment,
 )
 
 
