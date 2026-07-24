@@ -103,6 +103,7 @@ class IWSProprioExperiment(BaseLightningExperiment):
             return LatentWorldModelWithProprio(
                 self.root_cfg.algorithm,
                 proprio_contract=contract,
+                log_every_n_steps=self.cfg.training.log_every_n_steps,
             )
         else:
             # Fallback to base behavior for standard latent_world_model
