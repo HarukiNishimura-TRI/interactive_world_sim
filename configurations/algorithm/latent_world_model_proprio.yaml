@@ -18,3 +18,11 @@ proprio:
   num_hidden_layers: 2  # original-codebase default
   loss_weight: 0.1    # original-codebase default
   loss_type: mse      # "mse" or "smooth_l1"
+  # Latent source for proprio head input during Stage-2 training.
+  # gt_z: use frozen encoder ground-truth next latents (latent teacher forcing).
+  # predicted_z: use dynamics-predicted latents (ablation only).
+  latent_source: gt_z
+  # Whether to detach latents before passing to the proprio head.
+  # true (default): head-only gradients, dynamics unchanged.
+  # false: joint proprio-to-dynamics gradients (ablation only).
+  detach_latent: true
