@@ -11,7 +11,7 @@ training:
   precision: 32-true
   batch_size: 4  # original-codebase default for Stage 2
   max_epochs: -1
-  max_steps: 1000005  # original-codebase default
+  max_steps: 888199  # default from https://wandb.ai/yixuan1999/diffusion-forcing/reports/Bimanual-Rope-Stage-2--VmlldzoxNjExMzgyNA
   log_every_n_steps: 100  # original-codebase default
   checkpointing:
     every_n_train_steps: 10000  # original-codebase default
