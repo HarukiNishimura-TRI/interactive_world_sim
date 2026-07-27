@@ -7,7 +7,7 @@ defaults:
 tasks: [training]
 training:
   lr: 8e-5  # original-codebase default
-  precision: bf16-mixed  # A100-friendly mixed precision for faster Stage 1 runs
+  precision: 32-true
   batch_size: 16  # original-codebase default for Stage 1
   max_epochs: -1
   max_steps: 100000
@@ -21,11 +21,10 @@ training:
     num_workers: 16
 
 validation:
-  val_every_n_step: 30000
+  val_every_n_step: 10000
   val_every_n_epoch: null
   batch_size: 16
   limit_batch: 8
-  precision: bf16-mixed
 
 test:
   limit_batch: 1
