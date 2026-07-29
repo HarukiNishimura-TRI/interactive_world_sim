@@ -41,6 +41,7 @@ class IWSProprioExperiment(BaseLightningExperiment):
         "exp_iws_proprio_stage1": 1,
         "exp_iws_proprio_stage2": 2,
         "exp_iws_proprio_stage3": 3,
+        "exp_iws_proprio_stage4": 4,
     }
 
     @staticmethod

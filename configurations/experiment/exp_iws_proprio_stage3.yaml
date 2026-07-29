@@ -24,8 +24,10 @@ training:
 validation:
   val_every_n_step: 10000
   val_every_n_epoch: null
-  batch_size: 16
+  batch_size: 4
   limit_batch: 8
+  data:
+    num_workers: 4
 
 test:
   limit_batch: 1

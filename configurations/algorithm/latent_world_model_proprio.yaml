@@ -26,3 +26,26 @@ proprio:
   # true (default): head-only gradients, dynamics unchanged.
   # false: joint proprio-to-dynamics gradients (ablation only).
   detach_latent: true
+
+  # Stage-4 adapter config.  Defaults make Stage 2/3 behave as before
+  # (adapter.type=none).  Stage 4 overrides adapter.type to select the
+  # proprio adapter trained on frozen world-model weights.
+  adapter:
+    # Adapter type:
+    #   none               — no adapter (Stage 1/2/3 default)
+    #   copy_prev          — copy-previous baseline (no trainable params)
+    #   linear_residual    — Linear(action) -> residual
+    #   tiny_mlp_residual  — TinyMLP(prev_proprio, action) -> residual
+    #   latent_tiny_mlp_residual — TinyMLP(prev_proprio, action, latent) -> residual
+    type: none
+    # Latent source for latent adapters.  Ignored when type is no-latent.
+    #   none        — no latent input (required for copy_prev/linear_residual/tiny_mlp_residual)
+    #   gt_z        — frozen encoder ground-truth latents
+    #   predicted_z — dynamics-predicted latents
+    latent_source: none
+    # Spatial readout for latent adapters.  Ignored when latent_source=none.
+    #   none           — no readout (required for no-latent adapters)
+    #   gap            — global average pooling
+    #   spatial_softmax — spatial softmax readout
+    #   conv_flatten   — 1x1 conv + flatten
+    readout: none

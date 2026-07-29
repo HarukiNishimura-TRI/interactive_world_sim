@@ -1,0 +1,55 @@
+# IWS Stage 4: Post-hoc Proprio Adapter Training
+# Trains a configurable proprio adapter on frozen world-model weights.
+# Requires a Stage 2 or Stage 3 checkpoint (algorithm.load_ae).
+#
+# REQUIRED CLI OVERRIDES (Hydra does not compose experiment→algorithm):
+#   algorithm.training_stage=4
+#   algorithm.proprio.adapter.type=tiny_mlp_residual
+#
+# Optional adapter-type overrides:
+#   algorithm.proprio.adapter.type=copy_prev          (baseline)
+#   algorithm.proprio.adapter.type=linear_residual
+#   algorithm.proprio.adapter.type=latent_tiny_mlp_residual \
+#     algorithm.proprio.adapter.latent_source=gt_z \
+#     algorithm.proprio.adapter.readout=gap
+#
+# Example launch command:
+#   python main.py experiment=exp_iws_proprio_stage4 \
+#     algorithm=latent_world_model_proprio \
+#     algorithm.training_stage=4 \
+#     algorithm.proprio.adapter.type=tiny_mlp_residual \
+#     algorithm.load_ae=<path_to_stage2_ckpt>
+defaults:
+  - base_pytorch
+
+tasks: [training]
+training:
+  lr: 1e-3
+  precision: 32-true
+  batch_size: 64
+  max_epochs: -1
+  max_steps: 50000
+  log_every_n_steps: 500
+  checkpointing:
+    every_n_train_steps: 10000
+    save_last: True
+  optim:
+    gradient_clip_val: 1.0
+  data:
+    num_workers: 16
+
+validation:
+  val_every_n_step: 5000
+  val_every_n_epoch: null
+  batch_size: 8
+  limit_batch: 8
+  data:
+    num_workers: 4
+
+test:
+  limit_batch: 1
+  batch_size: 8
+
+logging:
+  metrics:
+    - fvd
